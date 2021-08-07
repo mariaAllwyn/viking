@@ -1,0 +1,172 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Artist Name</th>
+      <th scope="col">Album Title</th>
+      <th scope="col">Year</th>
+      <th scope="col">Record Condition</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let album of albums; let i = index">
+      <td>{{ album.artist.name }}</td>
+      <td class="pointer hover_highlight" (click)="onEditAlbumClick(album, i)">
+        {{ album.album_title }}
+      </td>
+      <td>{{ album.year }}</td>
+      <td>{{ album.condition }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal" id="myModal" [ngClass]="{ show: modalBody.isOpen }">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Update Album</h4>
+        <button
+          type="button"
+          class="close mr-1"
+          (click)="onCancel()"
+          data-dismiss="modal"
+        >
+          &times;
+        </button>
+      </div>
+
+      <form #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()">
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="ml-5 mr-5">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group mb-4">
+                  <label class="text-black-50"
+                    >Artist Name &nbsp;<span style="color: red">*</span></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    aria-describedby="inputGroupPrepend"
+                    name="Artist Name"
+                    [(ngModel)]="modalBody.album.artist.name"
+                    #artistName="ngModel"
+                    [ngClass]="{
+                      'is-invalid': f.submitted && artistName.invalid
+                    }"
+                    required
+                  />
+                  <div
+                    *ngIf="f.submitted && artistName.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="artistName.errors.required">
+                      Artist Name is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group mb-4">
+                  <label class="text-black-50"
+                    >Album Title &nbsp;<span style="color: red">*</span></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    aria-describedby="inputGroupPrepend"
+                    name="Album Title"
+                    [(ngModel)]="modalBody.album.album_title"
+                    #albumTitle="ngModel"
+                    [ngClass]="{
+                      'is-invalid': f.submitted && albumTitle.invalid
+                    }"
+                    required
+                  />
+                  <div
+                    *ngIf="f.submitted && albumTitle.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="albumTitle.errors.required">
+                      Album Title is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group mb-4">
+                  <label class="text-black-50"
+                    >Year &nbsp;<span style="color: red">*</span></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    aria-describedby="inputGroupPrepend"
+                    name="Year"
+                    [(ngModel)]="modalBody.album.year"
+                    #year="ngModel"
+                    [ngClass]="{
+                      'is-invalid': f.submitted && year.invalid
+                    }"
+                    required
+                  />
+                  <div
+                    *ngIf="f.submitted && year.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="year.errors.required">Year is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group mb-4">
+                  <label class="text-black-50"
+                    >Record Condition &nbsp;<span style="color: red"
+                      >*</span
+                    ></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    aria-describedby="inputGroupPrepend"
+                    name="Record Condition"
+                    [(ngModel)]="modalBody.album.condition"
+                    #recordCondition="ngModel"
+                    [ngClass]="{
+                      'is-invalid': f.submitted && recordCondition.invalid
+                    }"
+                    required
+                  />
+                  <div
+                    *ngIf="f.submitted && recordCondition.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="recordCondition.errors.required">
+                      Record Condition is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer border-0">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="onCancel()"
+            data-dismiss="modal"
+          >
+            Close
+          </button>
+          <button class="btn btn-primary btn-md" type="submit">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div [ngClass]="modalBody.isOpen ? 'show modal-backdrop fade' : ' fade'"></div>
